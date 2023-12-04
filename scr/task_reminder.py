@@ -1,10 +1,10 @@
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import csv
 import datetime
 import time
-import csv
 import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 def log_message(message):
@@ -16,18 +16,17 @@ def log_message(message):
 def read_tasks():
     """Função para ler tarefas do arquivo CSV."""
     tasks = []
-    with open("../data/tasks.csv", "r") as file:
-        csv_reader = csv.reader(file)
-        next(csv_reader)  # Pular cabeçalho
+    with open("../data/tasks.csv", "r", newline='', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
         for row in csv_reader:
             tasks.append(row)
     return tasks
 
 
 # Configurações do e-mail
-sender_email = os.getenv('EMAIL_REMETENTE')  # Lê o e-mail do remetente do ambiente
-receiver_email = os.getenv('EMAIL_DESTINATARIO')  # Lê o e-mail do destinatário do ambiente
-password = os.getenv('SENHA')  # Lê a senha do e-mail do ambiente
+sender_email = os.getenv('EMAIL_REMETENTE')
+receiver_email = os.getenv('EMAIL_DESTINATARIO')
+password = os.getenv('SENHA')
 
 smtp_server = "smtp.gmail.com"
 port = 587
@@ -37,7 +36,9 @@ tasks = read_tasks()
 
 # Verifica e envia lembretes para cada tarefa
 for task in tasks:
-    task_title, task_description, task_due_date = task
+    task_title = task['Title']
+    task_description = task['Description']
+    task_due_date = task['DueDate']
     reminder_time = datetime.datetime.strptime(task_due_date, '%Y-%m-%d %H:%M')
 
     # Verifica se é hora de enviar o lembrete
@@ -59,8 +60,10 @@ for task in tasks:
             server.sendmail(sender_email, receiver_email, message.as_string())
             server.quit()
 
+            # Log
             log_message(f"Lembrete enviado para a tarefa '{task_title}'.")
         except Exception as e:
             log_message(f"Erro ao enviar o lembrete para '{task_title}': {e}")
 
-    time.sleep(60)  # Pausa antes de verificar a próxima tarefa
+    # Espera um minuto antes de verificar a próxima tarefa para evitar sobrecarga
+    time.sleep(60)
