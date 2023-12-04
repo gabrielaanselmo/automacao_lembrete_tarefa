@@ -9,18 +9,19 @@ from email.mime.text import MIMEText
 
 def log_message(message):
     """Função para gravar logs no arquivo de log."""
-    with open("../logs/reminder_log.txt", "a") as log_file:
+    with open("logs/reminder_log.txt", "a") as log_file:
         log_file.write(f"{datetime.datetime.now()}: {message}\n")
 
 
 def read_tasks():
     """Função para ler tarefas do arquivo CSV."""
     tasks = []
-    with open("../data/tasks.csv", "r", newline='', encoding='utf-8') as file:
+    with open("data/tasks.csv", "r", newline='', encoding='utf-8') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             tasks.append(row)
     return tasks
+
 
 
 # Configurações do e-mail
