@@ -1,0 +1,3 @@
+2023-12-04 20:49:18.843618: Lembrete enviado para a tarefa 'Relatório Financeiro'.
+2023-12-04 20:50:21.967726: Lembrete enviado para a tarefa 'Reunião com a Equipe'.
+2023-12-04 20:51:25.840576: Lembrete enviado para a tarefa 'Consulta Médica'.
