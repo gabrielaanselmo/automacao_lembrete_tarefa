@@ -29,6 +29,7 @@ Este repositório contém um script Python 🐍 para enviar automaticamente lemb
 Title,Description,DueDate
 "Tarefa 1","Descrição da Tarefa 1","AAAA-MM-DD HH:MM"
 "Tarefa 2","Descrição da Tarefa 2","AAAA-MM-DD HH:MM"
+```
 
 2. **🔑 Variáveis de Ambiente**: Configure as seguintes variáveis de ambiente no seu ambiente de execução ou GitHub Secrets:
 ```
